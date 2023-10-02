@@ -18,7 +18,6 @@ describe("GET /api/topics", () => {
       .get("/api/topics")
       .expect(200)
       .then((response) => {
-        // console.log(response.body, "res.body in test");
         const topics = response.body;
         // expect(typeof topics).toBe(Array); // why does this line not work but line 24 does?
         expect(topics).toBeInstanceOf(Array);
