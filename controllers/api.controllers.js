@@ -17,11 +17,9 @@ exports.getAPI = (request, response, next) => {
 };
 
 exports.getArticleById = (request, response, next) => {
-  //   console.log(request, "request in controller");
   const id = request.params.article_id;
   fetchArtileById(id)
     .then((fetchedArticle) => {
-      console.log(fetchedArticle, "fArticle in controller");
       response.status(200).send({ article: fetchedArticle });
     })
     .catch((err) => {

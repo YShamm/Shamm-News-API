@@ -47,10 +47,6 @@ describe("GET /API", () => {
       .then((response) => {
         const API = response.body;
         expect(API).toEqual(endpoints);
-        // expect(APIs).toBeInstanceOf(Array);
-        // APIs.forEach((API) => {
-        //   expect(API).toHaveProperty("");
-        // }); //**I GUESS I CAN DELETE ALL OF THIS GREEN STUFF?*/
       });
   });
 });
@@ -61,9 +57,7 @@ describe("GET /api/articles/:article_id, gets an article by its id", () => {
       .get("/api/articles/3")
       .expect(200)
       .then((response) => {
-        console.log(response, "response in test");
-        const article = response.body.article;
-        console.log(article, "log of article in test");
+        const article = response.body.article; //ensures it is on a key of article
         expect(article).toHaveProperty("title", expect.any(String)); //note: the property needs to be in ""
         expect(article).toHaveProperty("topic", expect.any(String));
         expect(article).toHaveProperty("author", expect.any(String));

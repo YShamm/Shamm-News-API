@@ -20,7 +20,7 @@ app.use((request, response, next) => {
 
 //custom error handler
 app.use((err, req, res, next) => {
-  console.log(err, "ERR IN APP.JS");
+  console.log(err, "custom error");
   if (err.status && err.msg) {
     res.status(err.status).send({ msg: err.msg });
   }
