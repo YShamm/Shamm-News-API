@@ -1,10 +1,11 @@
 const express = require("express");
 
 const app = express();
-const { getTopics } = require("./controllers/api.controllers");
+const { getTopics, getAPI } = require("./controllers/api.controllers");
 
 //GET ENDPOINTS
 app.get("/api/topics", getTopics);
+app.get("/api", getAPI);
 
 //error handling middleware
 app.use((request, response, next) => {

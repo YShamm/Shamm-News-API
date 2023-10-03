@@ -3,6 +3,7 @@ const seed = require("../db/seeds/seed");
 const db = require("../db/connection");
 const request = require("supertest");
 const app = require("../app");
+const endpoints = require("../endpoints.json");
 
 beforeEach(() => {
   return seed(testData);
@@ -19,7 +20,6 @@ describe("GET /api/topics", () => {
       .expect(200)
       .then((response) => {
         const topics = response.body;
-        // expect(typeof topics).toBe(Array); // why does this line not work but line 24 does?
         expect(topics).toBeInstanceOf(Array);
         expect(topics.length).toBe(3);
         topics.forEach((topic) => {
@@ -35,6 +35,22 @@ describe("GET /api/topics", () => {
       .expect(404)
       .then((response) => {
         expect(response.body.msg).toBe("not found");
+      });
+  });
+});
+
+describe("GET /API", () => {
+  test("status 200; responds w/ an object describing all available endpoints", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then((response) => {
+        const API = response.body;
+        expect(API).toEqual(endpoints);
+        // expect(APIs).toBeInstanceOf(Array);
+        // APIs.forEach((API) => {
+        //   expect(API).toHaveProperty("");
+        // }); //**I GUESS I CAN DELETE ALL OF THIS GREEN STUFF?*/
       });
   });
 });
