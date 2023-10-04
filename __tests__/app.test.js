@@ -97,3 +97,28 @@ describe("GET /api/articles/:article_id, gets an article by its id", () => {
       });
   });
 });
+
+describe("GET /api/articles, gets all articles", () => {
+  test("responds with an array of all article objects sorted by date in descending order", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((response) => {
+        const articles = response.body;
+        //console.log(response.body, "response in TEST");
+        expect(articles.length).toBe(13);
+        expect(articles).toBeInstanceOf(Array);
+        expect(articles).toBeSortedBy("created_at", { descending: true });
+        articles.forEach((article) => {
+          expect(article).toHaveProperty("author");
+          expect(article).toHaveProperty("title");
+          expect(article).toHaveProperty("article_id");
+          expect(article).toHaveProperty("topic");
+          expect(article).toHaveProperty("created_at");
+          expect(article).toHaveProperty("votes");
+          expect(article).toHaveProperty("article_img_url");
+          expect(article).toHaveProperty("comment_count");
+        });
+      });
+  });
+});

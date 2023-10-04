@@ -5,12 +5,14 @@ const {
   getTopics,
   getAPI,
   getArticleById,
+  getArticles,
 } = require("./controllers/api.controllers");
 
 //GET ENDPOINTS
 app.get("/api/topics", getTopics);
 app.get("/api", getAPI);
 app.get("/api/articles/:article_id", getArticleById);
+app.get("/api/articles", getArticles);
 
 //error handling middleware
 app.use((request, response, next) => {
@@ -20,7 +22,7 @@ app.use((request, response, next) => {
 
 //custom error handler
 app.use((err, req, res, next) => {
-  console.log(err, "custom error");
+  //console.log(err, "custom error");
   if (err.status && err.msg) {
     res.status(err.status).send({ msg: err.msg });
   }
@@ -37,7 +39,7 @@ app.use((err, req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  console.log(err);
+  //console.log(err);
   res.status(500).send({ msg: "Internal Server Error" });
 });
 module.exports = app;
