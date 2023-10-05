@@ -1,4 +1,8 @@
-const { fetchTopics, fetchArtileById } = require("../models/api.models");
+const {
+  fetchTopics,
+  fetchArtileById,
+  fetchArticles,
+} = require("../models/api.models");
 const endpoints = require("../endpoints.json");
 
 exports.getTopics = (request, response, next) => {
@@ -21,6 +25,17 @@ exports.getArticleById = (request, response, next) => {
   fetchArtileById(id)
     .then((fetchedArticle) => {
       response.status(200).send({ article: fetchedArticle });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.getArticles = (request, response, next) => {
+  //console.log("am in in controller?");
+  fetchArticles()
+    .then((articles) => {
+      response.status(200).send(articles);
     })
     .catch((err) => {
       next(err);
