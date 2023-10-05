@@ -103,7 +103,6 @@ describe("GET /api/articles/:article_id/comments", () => {
     return request(app)
       .get("/api/articles/3/comments")
       .then((response) => {
-        //console.log(response.body.comments, "response in TEST");
         const comments = response.body.comments; //array of comments
         expect(comments).toBeInstanceOf(Array);
         expect(comments.length).toBe(2);

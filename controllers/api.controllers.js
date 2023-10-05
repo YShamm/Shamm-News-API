@@ -32,11 +32,9 @@ exports.getArticleById = (request, response, next) => {
 };
 
 exports.getCommentsById = (request, response, next) => {
-  //console.log(request, "request in CONTROLLER");
   const id = request.params.article_id;
   fetchCommentsById(id)
     .then((fetchedComments) => {
-      //console.log(fetchedComments, "response in CONTROLLER");
       response.status(200).send({
         comments: fetchedComments, //why does a comma appear here but not on line 27?
       });
