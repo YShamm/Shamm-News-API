@@ -66,3 +66,15 @@ You are now connected to database "nc_news_test" as user "macbookair2021".
          11 |     0 | 2020-09-20 00:10:00 | icellusedkars | Ambidextrous marsupial |          3
 (2 rows)
 
+ comment_id |          body          | article_id |    author     | votes |     created_at      
+------------+------------------------+------------+---------------+-------+---------------------
+         10 | git push origin master |          3 | icellusedkars |     0 | 2020-06-20 08:24:00
+         11 | Ambidextrous marsupial |          3 | icellusedkars |     0 | 2020-09-20 00:10:00
+(2 rows)
+
+ comment_id |          body          | article_id |    author     | votes |     created_at      
+------------+------------------------+------------+---------------+-------+---------------------
+         11 | Ambidextrous marsupial |          3 | icellusedkars |     0 | 2020-09-20 00:10:00
+         10 | git push origin master |          3 | icellusedkars |     0 | 2020-06-20 08:24:00
+(2 rows)
+

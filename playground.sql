@@ -9,3 +9,7 @@ SELECT articles.author, articles.title, articles.article_id, articles.topic, art
 SELECT * FROM articles WHERE article_id =3;
 
 SELECT comment_id, votes, created_at, author, body, article_id FROM comments WHERE article_id = 3;
+
+SELECT * FROM comments WHERE article_id =3;
+
+SELECT * FROM comments WHERE article_id = 3 ORDER BY created_at DESC;

@@ -116,6 +116,20 @@ describe("GET /api/articles/:article_id/comments", () => {
           expect(comment).toHaveProperty("body");
           expect(comment).toHaveProperty("article_id");
         });
+
+        expect(comments[0]).toHaveProperty("comment_id", 11);
+        expect(comments[0]).toHaveProperty("votes", 0);
+        //expect(comments[0]).toHaveProperty("created_at", "2020-09-20 00:10:00");
+        expect(comments[0]).toHaveProperty("author", "icellusedkars");
+        expect(comments[0]).toHaveProperty("body", "Ambidextrous marsupial");
+        expect(comments[0]).toHaveProperty("article_id", 3);
+
+        expect(comments[1]).toHaveProperty("comment_id", 10);
+        expect(comments[1]).toHaveProperty("votes", 0);
+        //expect(comments[1]).toHaveProperty("created_at", "2020-06-20 08:24:00");
+        expect(comments[1]).toHaveProperty("author", "icellusedkars");
+        expect(comments[1]).toHaveProperty("body", "git push origin master");
+        expect(comments[1]).toHaveProperty("article_id", 3);
       });
   });
   test("status 404; id not found - id type correct but does not exist", () => {
