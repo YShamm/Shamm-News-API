@@ -98,7 +98,7 @@ describe("GET /api/articles/:article_id, gets an article by its id", () => {
   });
 });
 
-describe("POST /api/articles/:article_id/comments; adds a comment for an article by article id", () => {
+describe.only("POST /api/articles/:article_id/comments; adds a comment for an article by article id", () => {
   test("posts a comment w/ a username and body", () => {
     const newComment = { username: "rogersop", body: "great article!" }; //in my model do need to change username to author?
 
@@ -144,5 +144,33 @@ describe("POST /api/articles/:article_id/comments; adds a comment for an article
       .then((response) => {
         expect(response.body.msg).toBe("article id not found");
       });
+  });
+
+  test("status 201; ignores unnecessary properties", () => {
+    const newComment = {
+      username: "rogersop",
+      body: "great article!",
+      unnecessaryProp: "something to be ignored",
+    }; //in my model do need to change username to author?
+
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send(newComment)
+      .expect(201)
+      .then((response) => {
+        expect(response.body.comment).toEqual({
+          author: "rogersop",
+          body: "great article!",
+          article_id: 3,
+          comment_id: 19,
+          created_at: expect.any(String),
+          votes: 0,
+        });
+      });
+  });
+
+  test("status:400, bad request - incorrectly formatted", () => {
+    const id = 2;
+    ///to be continued
   });
 });
