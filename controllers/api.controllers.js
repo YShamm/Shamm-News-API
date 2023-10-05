@@ -2,6 +2,7 @@ const {
   fetchTopics,
   fetchArtileById,
   fetchCommentsById,
+  fetchArticles,
 } = require("../models/api.models");
 const endpoints = require("../endpoints.json");
 
@@ -40,6 +41,17 @@ exports.getCommentsById = (request, response, next) => {
           comments: fetchedComments, //why does a comma appear here but not on line 27?
         });
       });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.getArticles = (request, response, next) => {
+  //console.log("am in in controller?");
+  fetchArticles()
+    .then((articles) => {
+      response.status(200).send(articles);
     })
     .catch((err) => {
       next(err);
