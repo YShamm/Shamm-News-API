@@ -98,6 +98,76 @@ describe("GET /api/articles/:article_id, gets an article by its id", () => {
   });
 });
 
+describe("GET /api/articles/:article_id/comments", () => {
+  test("responds with an array of comments for the given article_id", () => {
+    return request(app)
+      .get("/api/articles/3/comments")
+      .then((response) => {
+        const comments = response.body.comments; //array of comments
+        expect(comments).toBeInstanceOf(Array);
+        expect(comments.length).toBe(2);
+        expect(comments).toBeSortedBy("created_at", { descending: true });
+
+        console.log(comments, "log of comments in TEST");
+        comments.forEach((comment) => {
+          expect(comment).toHaveProperty("comment_id");
+          expect(comment).toHaveProperty("votes");
+          expect(comment).toHaveProperty("created_at");
+          expect(comment).toHaveProperty("author");
+          expect(comment).toHaveProperty("body");
+          expect(comment).toHaveProperty("article_id");
+        });
+
+        expect(comments[0]).toHaveProperty("comment_id", 11);
+        expect(comments[0]).toHaveProperty("votes", 0);
+        expect(comments[0]).toHaveProperty(
+          "created_at",
+          "2020-09-19T23:10:00.000Z"
+        );
+        expect(comments[0]).toHaveProperty("author", "icellusedkars");
+        expect(comments[0]).toHaveProperty("body", "Ambidextrous marsupial");
+        expect(comments[0]).toHaveProperty("article_id", 3);
+
+        expect(comments[1]).toHaveProperty("comment_id", 10);
+        expect(comments[1]).toHaveProperty("votes", 0);
+        expect(comments[1]).toHaveProperty(
+          "created_at",
+          "2020-06-20T07:24:00.000Z"
+        );
+        expect(comments[1]).toHaveProperty("author", "icellusedkars");
+        expect(comments[1]).toHaveProperty("body", "git push origin master");
+        expect(comments[1]).toHaveProperty("article_id", 3);
+      });
+  });
+  test("status 404; id not found - id type correct but does not exist", () => {
+    return request(app)
+      .get("/api/articles/9000/comments")
+      .expect(404)
+      .then((response) => {
+        expect(response.body.msg).toBe("article id not found");
+      });
+  });
+  test("status 400; invalid id type - id type incorrect", () => {
+    return request(app)
+      .get("/api/articles/three/comments")
+      .expect(400)
+      .then((response) => {
+        expect(response.body.msg).toBe("invalid id");
+      });
+  });
+  test("status 200; returns empty array when article has no comments", () => {
+    return request(app)
+      .get("/api/articles/2/comments")
+      .then((response) => {
+        const comments = response.body.comments; //array of comments
+        console.log(response.body, "res in TEST");
+        expect(comments).toBeInstanceOf(Array);
+        expect(comments.length).toBe(0);
+        expect(comments).toBeSortedBy("created_at", { descending: true });
+      });
+  });
+});
+
 describe("GET /api/articles, gets all articles", () => {
   test("responds with an array of all article objects sorted by date in descending order", () => {
     return request(app)

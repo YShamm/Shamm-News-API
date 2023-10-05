@@ -22,6 +22,16 @@ function fetchArtileById(id) {
     });
 }
 
+function fetchCommentsById(id) {
+  return db
+    .query(
+      `SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;`,
+      [id]
+    )
+    .then((response) => {
+      return response.rows;
+    });
+}
 function fetchArticles() {
   //console.log("made it to models");
   return db
@@ -34,4 +44,9 @@ function fetchArticles() {
     });
 }
 
-module.exports = { fetchTopics, fetchArtileById, fetchArticles };
+module.exports = {
+  fetchTopics,
+  fetchArtileById,
+  fetchCommentsById,
+  fetchArticles,
+};

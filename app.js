@@ -5,6 +5,7 @@ const {
   getTopics,
   getAPI,
   getArticleById,
+  getCommentsById,
   getArticles,
 } = require("./controllers/api.controllers");
 
@@ -13,6 +14,8 @@ app.get("/api/topics", getTopics);
 app.get("/api", getAPI);
 app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles", getArticles);
+
+app.get("/api/articles/:article_id/comments", getCommentsById);
 
 //error handling middleware
 app.use((request, response, next) => {
