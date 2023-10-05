@@ -41,6 +41,7 @@ exports.postComment = (request, response, next) => {
       response.status(201).send({ comment: addedComment });
     })
     .catch((err) => {
+      console.log(err, "custom err in CONTROLLER");
       next(err);
     });
 };

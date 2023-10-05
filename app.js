@@ -35,10 +35,11 @@ app.use((err, req, res, next) => {
 
 //psql error handler
 app.use((err, req, res, next) => {
+  console.log(err, "psql err in APP");
   if (err.code === "22P02") {
     res.status(400).send({ msg: "invalid id" });
   } else if (err.code === "23503") {
-    res.status(404).send({ msg: "article id not found" });
+    res.status(404).send({ msg: "username/article id not found" });
   } else {
     next(err);
   }

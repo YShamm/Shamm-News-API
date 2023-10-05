@@ -98,7 +98,7 @@ describe("GET /api/articles/:article_id, gets an article by its id", () => {
   });
 });
 
-describe.only("POST /api/articles/:article_id/comments; adds a comment for an article by article id", () => {
+describe("POST /api/articles/:article_id/comments; adds a comment for an article by article id", () => {
   test("posts a comment w/ a username and body", () => {
     const newComment = { username: "rogersop", body: "great article!" }; //in my model do need to change username to author?
 
@@ -142,7 +142,7 @@ describe.only("POST /api/articles/:article_id/comments; adds a comment for an ar
       .send(newComment)
       .expect(404)
       .then((response) => {
-        expect(response.body.msg).toBe("article id not found");
+        expect(response.body.msg).toBe("username/article id not found");
       });
   });
 
@@ -151,7 +151,7 @@ describe.only("POST /api/articles/:article_id/comments; adds a comment for an ar
       username: "rogersop",
       body: "great article!",
       unnecessaryProp: "something to be ignored",
-    }; //in my model do need to change username to author?
+    }; //in my model do need to change username to author? A: yes
 
     return request(app)
       .post("/api/articles/3/comments")
@@ -169,8 +169,29 @@ describe.only("POST /api/articles/:article_id/comments; adds a comment for an ar
       });
   });
 
-  test("status:400, bad request - incorrectly formatted", () => {
-    const id = 2;
-    ///to be continued
+  test("status:400, bad request - not correctly formatted", () => {
+    const newComment = {
+      body: "who am i?",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(400)
+      .then((response) => {
+        expect(response.body.msg).toBe("bad request; incorrect format");
+      });
+  });
+
+  test("status 404; posts a comment w/ a username that does not exist; returns error", () => {
+    const newComment = { username: "yshamm", body: "great article!" };
+
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send(newComment)
+      .expect(404)
+      .then((response) => {
+        console.log(response, "response in TEST");
+        expect(response.body.msg).toBe("username/article id not found");
+      });
   });
 });
