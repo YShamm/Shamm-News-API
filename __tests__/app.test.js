@@ -97,3 +97,42 @@ describe("GET /api/articles/:article_id, gets an article by its id", () => {
       });
   });
 });
+
+describe("GET /api/articles/:article_id/comments", () => {
+  test("responds with an array of comments for the given article_id", () => {
+    return request(app)
+      .get("/api/articles/3/comments")
+      .then((response) => {
+        //console.log(response.body.comments, "response in TEST");
+        const comments = response.body.comments; //array of comments
+        expect(comments).toBeInstanceOf(Array);
+        expect(comments.length).toBe(2);
+        expect(comments).toBeSortedBy("created_at", { descending: true });
+
+        comments.forEach((comment) => {
+          expect(comment).toHaveProperty("comment_id");
+          expect(comment).toHaveProperty("votes");
+          expect(comment).toHaveProperty("created_at");
+          expect(comment).toHaveProperty("author");
+          expect(comment).toHaveProperty("body");
+          expect(comment).toHaveProperty("article_id");
+        });
+      });
+  });
+  test("status 404; id not found - id type correct but does not exist", () => {
+    return request(app)
+      .get("/api/articles/9000/comments")
+      .expect(404)
+      .then((response) => {
+        expect(response.body.msg).toBe("article id not found");
+      });
+  });
+  test("status 400; invalid id type - id type incorrect", () => {
+    return request(app)
+      .get("/api/articles/three/comments")
+      .expect(400)
+      .then((response) => {
+        expect(response.body.msg).toBe("invalid id");
+      });
+  });
+});

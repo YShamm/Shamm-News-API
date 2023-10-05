@@ -1,4 +1,8 @@
-const { fetchTopics, fetchArtileById } = require("../models/api.models");
+const {
+  fetchTopics,
+  fetchArtileById,
+  fetchCommentsById,
+} = require("../models/api.models");
 const endpoints = require("../endpoints.json");
 
 exports.getTopics = (request, response, next) => {
@@ -21,6 +25,21 @@ exports.getArticleById = (request, response, next) => {
   fetchArtileById(id)
     .then((fetchedArticle) => {
       response.status(200).send({ article: fetchedArticle });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.getCommentsById = (request, response, next) => {
+  //console.log(request, "request in CONTROLLER");
+  const id = request.params.article_id;
+  fetchCommentsById(id)
+    .then((fetchedComments) => {
+      //console.log(fetchedComments, "response in CONTROLLER");
+      response.status(200).send({
+        comments: fetchedComments, //why does a comma appear here but not on line 27?
+      });
     })
     .catch((err) => {
       next(err);
