@@ -110,14 +110,14 @@ describe("GET /api/articles, gets all articles", () => {
         expect(articles).toBeInstanceOf(Array);
         expect(articles).toBeSortedBy("created_at", { descending: true });
         articles.forEach((article) => {
-          expect(article).toHaveProperty("author");
-          expect(article).toHaveProperty("title");
-          expect(article).toHaveProperty("article_id");
-          expect(article).toHaveProperty("topic");
-          expect(article).toHaveProperty("created_at");
-          expect(article).toHaveProperty("votes");
-          expect(article).toHaveProperty("article_img_url");
-          expect(article).toHaveProperty("comment_count");
+          expect(article).toHaveProperty("author", expect.any(String));
+          expect(article).toHaveProperty("title", expect.any(String));
+          expect(article).toHaveProperty("article_id", expect.any(Number));
+          expect(article).toHaveProperty("topic", expect.any(String));
+          expect(article).toHaveProperty("created_at", expect.any(String));
+          expect(article).toHaveProperty("votes", expect.any(Number));
+          expect(article).toHaveProperty("article_img_url", expect.any(String));
+          expect(article).toHaveProperty("comment_count", expect.any(String));
         });
       });
   });
