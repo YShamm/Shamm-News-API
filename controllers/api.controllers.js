@@ -1,4 +1,8 @@
-const { fetchTopics, fetchArtileById } = require("../models/api.models");
+const {
+  fetchTopics,
+  fetchArtileById,
+  addCommentById,
+} = require("../models/api.models");
 const endpoints = require("../endpoints.json");
 
 exports.getTopics = (request, response, next) => {
@@ -21,6 +25,20 @@ exports.getArticleById = (request, response, next) => {
   fetchArtileById(id)
     .then((fetchedArticle) => {
       response.status(200).send({ article: fetchedArticle });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.postComment = (request, response, next) => {
+  //console.log(request.body, "request in CONTROLLER");
+  const id = request.params.article_id;
+  const username = request.body.username;
+  const body = request.body.body;
+  addCommentById(id, username, body)
+    .then((addedComment) => {
+      response.status(201).send({ comment: addedComment });
     })
     .catch((err) => {
       next(err);

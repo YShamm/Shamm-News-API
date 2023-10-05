@@ -97,3 +97,52 @@ describe("GET /api/articles/:article_id, gets an article by its id", () => {
       });
   });
 });
+
+describe("POST /api/articles/:article_id/comments; adds a comment for an article by article id", () => {
+  test("posts a comment w/ a username and body", () => {
+    const newComment = { username: "rogersop", body: "great article!" }; //in my model do need to change username to author?
+
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send(newComment)
+      .expect(201)
+      .then((response) => {
+        console.log(response, "response in TEST");
+        // expect(response.body.comment.author).toBe("rogersop");
+        expect(response.body.comment).toHaveProperty("author", "rogersop");
+        expect(response.body.comment).toHaveProperty("body", "great article!");
+        expect(response.body.comment).toHaveProperty("article_id", 3);
+        expect(response.body.comment).toHaveProperty("comment_id", 19);
+        expect(response.body.comment).toHaveProperty("created_at");
+        expect(response.body.comment).toHaveProperty("votes", 0);
+        expect(response.body.comment).toHaveProperty(
+          "created_at",
+          expect.any(String)
+        );
+      });
+  });
+
+  test("status 400; id type invalid", () => {
+    const newComment = { username: "rogersop", body: "great article!" };
+
+    return request(app)
+      .post("/api/articles/three/comments")
+      .send(newComment)
+      .expect(400)
+      .then((response) => {
+        expect(response.body.msg).toBe("invalid id");
+      });
+  });
+
+  test("status 404; id not found - id type correct but does not exist", () => {
+    const newComment = { username: "rogersop", body: "great article!" };
+
+    return request(app)
+      .post("/api/articles/3000/comments")
+      .send(newComment)
+      .expect(404)
+      .then((response) => {
+        expect(response.body.msg).toBe("article id not found");
+      });
+  });
+});
