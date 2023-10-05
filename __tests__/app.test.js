@@ -108,6 +108,7 @@ describe("GET /api/articles/:article_id/comments", () => {
         expect(comments.length).toBe(2);
         expect(comments).toBeSortedBy("created_at", { descending: true });
 
+        console.log(comments, "log of comments in TEST");
         comments.forEach((comment) => {
           expect(comment).toHaveProperty("comment_id");
           expect(comment).toHaveProperty("votes");
@@ -119,14 +120,20 @@ describe("GET /api/articles/:article_id/comments", () => {
 
         expect(comments[0]).toHaveProperty("comment_id", 11);
         expect(comments[0]).toHaveProperty("votes", 0);
-        //expect(comments[0]).toHaveProperty("created_at", "2020-09-20 00:10:00");
+        expect(comments[0]).toHaveProperty(
+          "created_at",
+          "2020-09-19T23:10:00.000Z"
+        );
         expect(comments[0]).toHaveProperty("author", "icellusedkars");
         expect(comments[0]).toHaveProperty("body", "Ambidextrous marsupial");
         expect(comments[0]).toHaveProperty("article_id", 3);
 
         expect(comments[1]).toHaveProperty("comment_id", 10);
         expect(comments[1]).toHaveProperty("votes", 0);
-        //expect(comments[1]).toHaveProperty("created_at", "2020-06-20 08:24:00");
+        expect(comments[1]).toHaveProperty(
+          "created_at",
+          "2020-06-20T07:24:00.000Z"
+        );
         expect(comments[1]).toHaveProperty("author", "icellusedkars");
         expect(comments[1]).toHaveProperty("body", "git push origin master");
         expect(comments[1]).toHaveProperty("article_id", 3);
@@ -157,15 +164,6 @@ describe("GET /api/articles/:article_id/comments", () => {
         expect(comments).toBeInstanceOf(Array);
         expect(comments.length).toBe(0);
         expect(comments).toBeSortedBy("created_at", { descending: true });
-
-        comments.forEach((comment) => {
-          expect(comment).toHaveProperty("comment_id");
-          expect(comment).toHaveProperty("votes");
-          expect(comment).toHaveProperty("created_at");
-          expect(comment).toHaveProperty("author");
-          expect(comment).toHaveProperty("body");
-          expect(comment).toHaveProperty("article_id");
-        });
       });
   });
 });
