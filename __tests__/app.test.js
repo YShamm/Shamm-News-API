@@ -134,4 +134,24 @@ describe("GET /api/articles/:article_id/comments", () => {
         expect(response.body.msg).toBe("invalid id");
       });
   });
+  test("status 200; returns empty array when article has no comments", () => {
+    return request(app)
+      .get("/api/articles/2/comments")
+      .then((response) => {
+        const comments = response.body.comments; //array of comments
+        console.log(response.body, "res in TEST");
+        expect(comments).toBeInstanceOf(Array);
+        expect(comments.length).toBe(0);
+        expect(comments).toBeSortedBy("created_at", { descending: true });
+
+        comments.forEach((comment) => {
+          expect(comment).toHaveProperty("comment_id");
+          expect(comment).toHaveProperty("votes");
+          expect(comment).toHaveProperty("created_at");
+          expect(comment).toHaveProperty("author");
+          expect(comment).toHaveProperty("body");
+          expect(comment).toHaveProperty("article_id");
+        });
+      });
+  });
 });

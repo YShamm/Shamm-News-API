@@ -33,10 +33,12 @@ exports.getArticleById = (request, response, next) => {
 
 exports.getCommentsById = (request, response, next) => {
   const id = request.params.article_id;
-  fetchCommentsById(id)
-    .then((fetchedComments) => {
-      response.status(200).send({
-        comments: fetchedComments, //why does a comma appear here but not on line 27?
+  fetchArtileById(id)
+    .then(() => {
+      fetchCommentsById(id).then((fetchedComments) => {
+        response.status(200).send({
+          comments: fetchedComments, //why does a comma appear here but not on line 27?
+        });
       });
     })
     .catch((err) => {

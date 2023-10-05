@@ -29,14 +29,7 @@ function fetchCommentsById(id) {
       [id]
     )
     .then((response) => {
-      if (response.rows.length === 0) {
-        return Promise.reject({
-          status: 404,
-          msg: "article id not found",
-        });
-      } else {
-        return response.rows;
-      }
+      return response.rows;
     });
 }
 
