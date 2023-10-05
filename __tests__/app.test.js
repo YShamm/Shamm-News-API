@@ -164,6 +164,10 @@ describe("GET /api/articles/:article_id/comments", () => {
         expect(comments).toBeInstanceOf(Array);
         expect(comments.length).toBe(0);
         expect(comments).toBeSortedBy("created_at", { descending: true });
+      });
+  });
+});
+
 describe("GET /api/articles, gets all articles", () => {
   test("responds with an array of all article objects sorted by date in descending order", () => {
     return request(app)
