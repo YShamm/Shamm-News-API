@@ -3,6 +3,7 @@ const {
   fetchArtileById,
   fetchCommentsById,
   fetchArticles,
+  fetchAllUsers,
 } = require("../models/api.models");
 const endpoints = require("../endpoints.json");
 
@@ -52,6 +53,16 @@ exports.getArticles = (request, response, next) => {
   fetchArticles()
     .then((articles) => {
       response.status(200).send(articles);
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.getUsers = (request, response, next) => {
+  fetchAllUsers()
+    .then((users) => {
+      response.status(200).send(users);
     })
     .catch((err) => {
       next(err);

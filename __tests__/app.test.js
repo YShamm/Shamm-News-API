@@ -192,3 +192,31 @@ describe("GET /api/articles, gets all articles", () => {
       });
   });
 });
+
+describe("GET /api/users, gets all users", () => {
+  test("Status 200 responds with an array of all user objects", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then((response) => {
+        const users = response.body;
+        //console.log(response.body, "response in TEST");
+        expect(users.length).toBe(4);
+        expect(users).toBeInstanceOf(Array);
+        users.forEach((user) => {
+          expect(user).toHaveProperty("username", expect.any(String));
+          expect(user).toHaveProperty("name", expect.any(String));
+          expect(user).toHaveProperty("avatar_url", expect.any(String));
+        });
+      });
+  });
+
+  test("endpoint does not exist, responds w/ 400 error", () => {
+    return request(app)
+      .get("/api/userss")
+      .expect(404)
+      .then((response) => {
+        expect(response.body.msg).toBe("not found");
+      });
+  });
+});

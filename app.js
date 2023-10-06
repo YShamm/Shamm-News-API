@@ -7,6 +7,7 @@ const {
   getArticleById,
   getCommentsById,
   getArticles,
+  getUsers,
 } = require("./controllers/api.controllers");
 
 //GET ENDPOINTS
@@ -16,6 +17,8 @@ app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles", getArticles);
 
 app.get("/api/articles/:article_id/comments", getCommentsById);
+
+app.get("/api/users", getUsers);
 
 //error handling middleware
 app.use((request, response, next) => {

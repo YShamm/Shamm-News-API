@@ -44,9 +44,16 @@ function fetchArticles() {
     });
 }
 
+function fetchAllUsers() {
+  return db.query(`SELECT * FROM users`).then((response) => {
+    return response.rows;
+  });
+}
+
 module.exports = {
   fetchTopics,
   fetchArtileById,
   fetchCommentsById,
   fetchArticles,
+  fetchAllUsers,
 };
