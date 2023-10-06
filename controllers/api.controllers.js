@@ -3,6 +3,7 @@ const {
   fetchArtileById,
   fetchCommentsById,
   fetchArticles,
+  updateArticleVotes,
 } = require("../models/api.models");
 const endpoints = require("../endpoints.json");
 
@@ -52,6 +53,18 @@ exports.getArticles = (request, response, next) => {
   fetchArticles()
     .then((articles) => {
       response.status(200).send(articles);
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.patchArticleById = (request, response, next) => {
+  const id = request.params.article_id;
+  const inc_votes = request.body.inc_votes;
+  updateArticleVotes(id, inc_votes)
+    .then((article) => {
+      response.status(200).send({ article: article });
     })
     .catch((err) => {
       next(err);

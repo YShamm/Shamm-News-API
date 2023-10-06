@@ -7,7 +7,10 @@ const {
   getArticleById,
   getCommentsById,
   getArticles,
+  patchArticleById,
 } = require("./controllers/api.controllers");
+
+app.use(express.json());
 
 //GET ENDPOINTS
 app.get("/api/topics", getTopics);
@@ -16,6 +19,8 @@ app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles", getArticles);
 
 app.get("/api/articles/:article_id/comments", getCommentsById);
+
+app.patch("/api/articles/:article_id", patchArticleById);
 
 //error handling middleware
 app.use((request, response, next) => {

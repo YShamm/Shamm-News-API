@@ -44,9 +44,29 @@ function fetchArticles() {
     });
 }
 
+function updateArticleVotes(id, inc_votes) {
+  //console.log(id, "id in MODEL");
+  if (!inc_votes) {
+    return Promise.reject({
+      status: 400,
+      msg: "no change in vote",
+    });
+  } else {
+    return db
+      .query(
+        `UPDATE articles SET votes=votes + $2 WHERE article_id = $1 RETURNING *;`,
+        [id, inc_votes]
+      )
+      .then((response) => {
+        return response.rows[0];
+      });
+  }
+}
+
 module.exports = {
   fetchTopics,
   fetchArtileById,
   fetchCommentsById,
   fetchArticles,
+  updateArticleVotes,
 };

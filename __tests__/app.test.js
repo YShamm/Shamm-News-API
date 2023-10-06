@@ -192,3 +192,53 @@ describe("GET /api/articles, gets all articles", () => {
       });
   });
 });
+
+describe("PATCH /api/articles/:article_id", () => {
+  test("vote up an article", () => {
+    const newVotes = { inc_votes: 10 };
+
+    return request(app)
+      .patch("/api/articles/3")
+      .send(newVotes)
+      .expect(200) //its 200 bc we return
+      .then((response) => {
+        console.log(response.body, "res in TEST");
+        expect(response.body.article).toEqual({
+          article_id: 3,
+          title: "Eight pug gifs that remind me of mitch",
+          topic: "mitch",
+          author: "icellusedkars",
+          body: "some gifs",
+          created_at: "2020-11-03T09:12:00.000Z",
+          votes: 10,
+          article_img_url:
+            "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+        });
+        expect(response.body.article.votes).toBe(10);
+      });
+  });
+
+  test("status 400; bad request, invalid data type", () => {
+    const newVotes = { inc_votes: "ten" };
+
+    return request(app)
+      .patch("/api/articles/3")
+      .send(newVotes)
+      .expect(400)
+      .then((response) => {
+        console.log(response.body.msg, "err msg in TEST");
+        expect(response.body.msg).toBe("invalid id");
+      });
+  });
+
+  test("status 400; bad request, empty object", () => {
+    const newVotes = {};
+    return request(app)
+      .patch(`/api/articles/3`)
+      .send(newVotes)
+      .expect(400)
+      .then((response) => {
+        expect(response.body.msg).toBe("no change in vote");
+      });
+  });
+});
