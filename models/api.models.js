@@ -58,6 +58,12 @@ function updateArticleVotes(id, inc_votes) {
         [id, inc_votes]
       )
       .then((response) => {
+        if (response.rows.length === 0) {
+          return Promise.reject({
+            status: 404,
+            msg: "article id not found",
+          });
+        }
         return response.rows[0];
       });
   }

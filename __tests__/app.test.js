@@ -241,4 +241,23 @@ describe("PATCH /api/articles/:article_id", () => {
         expect(response.body.msg).toBe("no change in vote");
       });
   });
+
+  test.only("status:404, correct data type but id does not exist to update ", () => {
+    return request(app)
+      .patch(`/api/articles/99999`)
+      .send({ inc_votes: 10 })
+      .expect(404)
+      .then((response) => {
+        expect(response.body.msg).toBe("article id not found");
+      });
+  });
+  test.only("status: 400, invalid Id not a number cant patch wrong data type", () => {
+    return request(app)
+      .patch(`/api/articles/not-an-id`)
+      .send({ inc_votes: 10 })
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("invalid id");
+      });
+  });
 });
