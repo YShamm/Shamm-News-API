@@ -8,9 +8,14 @@ function fetchTopics() {
 }
 
 function fetchArtileById(id) {
+  console.log(id, "ID IN MODEL");
   return db
-    .query(`SELECT * FROM articles WHERE article_id = $1;`, [id])
+    .query(
+      `SELECT articles.*, COUNT(comments.article_id) ::INT AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id WHERE articles.article_id = $1 GROUP BY articles.article_id;`,
+      [id]
+    ) ///THIS IS WHAT WE CHANGE
     .then((response) => {
+      console.log(response, "RESPONSE IN MODEL");
       if (response.rows.length === 0) {
         return Promise.reject({
           status: 404,
@@ -20,6 +25,9 @@ function fetchArtileById(id) {
         return response.rows[0];
       }
     });
+  // .catch((err) => {
+  //   console.log(err, "ERR IN MODEL");
+  // });
 }
 
 function fetchCommentsById(id) {

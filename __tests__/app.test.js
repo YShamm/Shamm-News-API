@@ -77,9 +77,34 @@ describe("GET /api/articles/:article_id, gets an article by its id", () => {
           votes: 0,
           article_img_url:
             "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+          comment_count: 2,
         });
       });
   });
+
+  test("status 200; returns article w/ correct id and a property of comment_count", () => {
+    return request(app)
+      .get("/api/articles/3")
+      .expect(200)
+      .then((response) => {
+        const article = response.body.article; //ensures it is on a key of article
+        expect(article).toHaveProperty("comment_count", 2);
+
+        expect(article).toEqual({
+          article_id: 3,
+          title: "Eight pug gifs that remind me of mitch",
+          topic: "mitch",
+          author: "icellusedkars",
+          body: "some gifs",
+          created_at: "2020-11-03T09:12:00.000Z",
+          votes: 0,
+          article_img_url:
+            "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+          comment_count: 2,
+        });
+      });
+  });
+
   test("status 404; id not found - id type correct but does not exist", () => {
     return request(app)
       .get("/api/articles/9000")
