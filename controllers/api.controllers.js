@@ -3,6 +3,7 @@ const {
   fetchArtileById,
   fetchCommentsById,
   fetchArticles,
+  removeComment,
 } = require("../models/api.models");
 const endpoints = require("../endpoints.json");
 
@@ -52,6 +53,17 @@ exports.getArticles = (request, response, next) => {
   fetchArticles()
     .then((articles) => {
       response.status(200).send(articles);
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.deleteComment = (request, response, next) => {
+  const id = request.params.comment_id;
+  removeComment(id)
+    .then((comment) => {
+      response.status(204).send();
     })
     .catch((err) => {
       next(err);
