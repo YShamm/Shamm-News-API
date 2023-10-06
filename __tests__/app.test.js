@@ -191,4 +191,15 @@ describe("GET /api/articles, gets all articles", () => {
         });
       });
   });
+  test("responds with articles filtered by the topic value specified in the query", () => {
+    return request(app)
+      .get("/api/articles?topic=cats")
+      .expect(200)
+      .then((response) => {
+        const articles = response.body;
+        expect(articles.length).toBe(1);
+        expect(articles).toBeInstanceOf(Array);
+        expect(articles).toBeSortedBy("created_at", { descending: true });
+      });
+  });
 });
