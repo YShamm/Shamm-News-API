@@ -242,7 +242,7 @@ describe("PATCH /api/articles/:article_id", () => {
       });
   });
 
-  test.only("status:404, correct data type but id does not exist to update ", () => {
+  test("status:404, correct data type but id does not exist to update ", () => {
     return request(app)
       .patch(`/api/articles/99999`)
       .send({ inc_votes: 10 })
@@ -251,7 +251,7 @@ describe("PATCH /api/articles/:article_id", () => {
         expect(response.body.msg).toBe("article id not found");
       });
   });
-  test.only("status: 400, invalid Id not a number cant patch wrong data type", () => {
+  test("status: 400, invalid Id not a number cant patch wrong data type", () => {
     return request(app)
       .patch(`/api/articles/not-an-id`)
       .send({ inc_votes: 10 })
@@ -262,7 +262,7 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 });
 
-describe.only("POST /api/articles/:article_id/comments; adds a comment for an article by article id", () => {
+describe("POST /api/articles/:article_id/comments; adds a comment for an article by article id", () => {
   test("posts a comment w/ a username and body", () => {
     const newComment = { username: "rogersop", body: "great article!" }; //in my model do need to change username to author?
 
