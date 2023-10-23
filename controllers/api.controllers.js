@@ -4,7 +4,7 @@ const {
   fetchCommentsById,
   fetchArticles,
   addCommentById,
-  updateArticleVotes,
+  removeComment,
 } = require("../models/api.models");
 const endpoints = require("../endpoints.json");
 
@@ -83,6 +83,17 @@ exports.postComment = (request, response, next) => {
     })
     .catch((err) => {
       console.log(err, "custom err in CONTROLLER");
+      next(err);
+    });
+};
+
+exports.deleteComment = (request, response, next) => {
+  const id = request.params.comment_id;
+  removeComment(id)
+    .then((comment) => {
+      response.status(204).send();
+    })
+    .catch((err) => {
       next(err);
     });
 };

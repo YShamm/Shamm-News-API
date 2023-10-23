@@ -359,3 +359,27 @@ describe("POST /api/articles/:article_id/comments; adds a comment for an article
       });
   });
 });
+
+describe("DELETE /api/comments/:comment_id", () => {
+  test("deletes a comment by comment_id", () => {
+    return request(app).delete("/api/comments/5").expect(204);
+  });
+
+  test("status 404 id not found", () => {
+    return request(app)
+      .delete("/api/comments/90")
+      .expect(404)
+      .then((response) => {
+        expect(response.body.msg).toBe("comment id not found");
+      });
+  });
+
+  test("status 400; invalid id type - comment id type incorrect", () => {
+    return request(app)
+      .delete("/api/comments/three")
+      .expect(400)
+      .then((response) => {
+        expect(response.body.msg).toBe("invalid id");
+      });
+  });
+});
