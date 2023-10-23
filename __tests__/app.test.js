@@ -193,7 +193,7 @@ describe("GET /api/articles, gets all articles", () => {
   });
 });
 
-describe("POST /api/articles/:article_id/comments; adds a comment for an article by article id", () => {
+describe.only("POST /api/articles/:article_id/comments; adds a comment for an article by article id", () => {
   test("posts a comment w/ a username and body", () => {
     const newComment = { username: "rogersop", body: "great article!" }; //in my model do need to change username to author?
 
