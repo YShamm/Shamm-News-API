@@ -52,8 +52,9 @@ exports.getCommentsById = (request, response, next) => {
 };
 
 exports.getArticles = (request, response, next) => {
-  //console.log("am in in controller?");
-  fetchArticles()
+  console.log("i am in controller");
+  const topic = request.query.topic;
+  fetchArticles(topic)
     .then((articles) => {
       response.status(200).send(articles);
     })
