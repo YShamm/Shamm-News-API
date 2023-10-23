@@ -4,6 +4,7 @@ const {
   fetchCommentsById,
   fetchArticles,
   addCommentById,
+  updateArticleVotes,
   removeComment,
 } = require("../models/api.models");
 const endpoints = require("../endpoints.json");
