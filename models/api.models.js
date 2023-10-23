@@ -44,9 +44,36 @@ function fetchArticles() {
     });
 }
 
+function addCommentById(id, username, body) {
+  if (!username || !body) {
+    return Promise.reject({
+      status: 400,
+      msg: "bad request; incorrect format",
+    });
+  } else {
+    return db
+      .query(
+        `INSERT INTO comments (body, author, article_id) VALUES ($1, $2, $3) RETURNING *;`, //can't use %L here. need to use $ syntax
+        [body, username, id]
+      )
+      .then((response) => {
+        //console.log(response.rows, "response in MODEL");   //this custom error didnt work. used psql error handler instead.
+        //   if (response.rows.length === 0) {
+        //     return Promise.reject({
+        //       status: 404,
+        //       msg: "article id not found",
+        //     });
+        //   } else {
+        return response.rows[0];
+        //  }
+      });
+  }
+}
+
 module.exports = {
   fetchTopics,
   fetchArtileById,
   fetchCommentsById,
   fetchArticles,
+  addCommentById,
 };

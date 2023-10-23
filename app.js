@@ -7,7 +7,10 @@ const {
   getArticleById,
   getCommentsById,
   getArticles,
+  postComment,
 } = require("./controllers/api.controllers");
+
+app.use(express.json());
 
 //GET ENDPOINTS
 app.get("/api/topics", getTopics);
@@ -16,6 +19,9 @@ app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles", getArticles);
 
 app.get("/api/articles/:article_id/comments", getCommentsById);
+
+//POST ENDPOINTS
+app.post("/api/articles/:article_id/comments", postComment);
 
 //error handling middleware
 app.use((request, response, next) => {
@@ -34,8 +40,11 @@ app.use((err, req, res, next) => {
 
 //psql error handler
 app.use((err, req, res, next) => {
+  console.log(err, "psql err in APP");
   if (err.code === "22P02") {
     res.status(400).send({ msg: "invalid id" });
+  } else if (err.code === "23503") {
+    res.status(404).send({ msg: "username/article id not found" });
   } else {
     next(err);
   }

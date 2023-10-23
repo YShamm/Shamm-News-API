@@ -3,6 +3,7 @@ const {
   fetchArtileById,
   fetchCommentsById,
   fetchArticles,
+  addCommentById,
 } = require("../models/api.models");
 const endpoints = require("../endpoints.json");
 
@@ -54,6 +55,21 @@ exports.getArticles = (request, response, next) => {
       response.status(200).send(articles);
     })
     .catch((err) => {
+      next(err);
+    });
+};
+
+exports.postComment = (request, response, next) => {
+  //console.log(request.body, "request in CONTROLLER");
+  const id = request.params.article_id;
+  const username = request.body.username;
+  const body = request.body.body;
+  addCommentById(id, username, body)
+    .then((addedComment) => {
+      response.status(201).send({ comment: addedComment });
+    })
+    .catch((err) => {
+      console.log(err, "custom err in CONTROLLER");
       next(err);
     });
 };
