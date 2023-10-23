@@ -109,6 +109,12 @@ function removeComment(id) {
     });
 }
 
+function fetchAllUsers() {
+  return db.query(`SELECT * FROM users`).then((response) => {
+    return response.rows;
+  });
+}
+
 module.exports = {
   fetchTopics,
   fetchArtileById,
@@ -117,4 +123,5 @@ module.exports = {
   updateArticleVotes,
   addCommentById,
   removeComment,
+  fetchAllUsers,
 };
