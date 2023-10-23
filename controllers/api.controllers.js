@@ -26,6 +26,7 @@ exports.getAPI = (request, response, next) => {
 };
 
 exports.getArticleById = (request, response, next) => {
+  console.log("im in the CONT ROLLER");
   const id = request.params.article_id;
   fetchArtileById(id)
     .then((fetchedArticle) => {
